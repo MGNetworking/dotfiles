@@ -16,6 +16,7 @@ Commandes pour initialiser un projet git de A à Z.
 | `/git-setup-gitattributes` | Générer un `.gitattributes` (fins de ligne, fichiers binaires) |
 | `/git-setup-release-please` | Configurer Release Please pour automatiser versions et CHANGELOG |
 | `/git-setup-actions` | Générer les workflows GitHub Actions (CI et/ou Release) |
+| `/git-setup-github` | Créer le dépôt GitHub avec description, topics, remote et protection des branches |
 
 ---
 

@@ -35,7 +35,22 @@ Poser la question :
 
 ---
 
-## Étape 3 — Release Please
+## Étape 3 — GitHub
+
+Poser la question :
+
+> Veux-tu créer le dépôt sur **GitHub** ?
+> (Oui / Non)
+
+Si oui :
+> - **Visibilité** ? (public / private)
+> - **Description courte** du projet ? (1 phrase pour l'About GitHub)
+> - **Topics supplémentaires** ? (mots-clés libres, séparés par des virgules)
+> - **URL du site web** ? (optionnel)
+
+---
+
+## Étape 5 — Release Please
 
 Poser la question :
 
@@ -47,7 +62,7 @@ Si oui :
 
 ---
 
-## Étape 4 — GitHub Actions
+## Étape 6 — GitHub Actions
 
 Poser la question :
 
@@ -59,7 +74,7 @@ Poser la question :
 
 ---
 
-## Étape 5 — Récapitulatif et exécution
+## Étape 7 — Récapitulatif et exécution
 
 Afficher un récapitulatif de tous les choix :
 
@@ -68,6 +83,7 @@ Projet     : <nom>
 Langage    : <langage>
 OS         : <os>
 Branches   : <stratégie>
+GitHub     : <oui/non> (visibilité, description, topics)
 Release    : <oui/non>
 Actions    : <ci/release/les deux/aucun>
 ```
@@ -85,6 +101,7 @@ Une fois confirmé, exécuter dans l'ordre :
 3. `/git-setup-gitattributes` avec l'OS
 4. `/git-setup-release-please` si activé
 5. `/git-setup-actions` si activé
+6. `/git-setup-github` si activé (créer le dépôt, description, topics, remote, protection)
 
 Confirmer chaque étape à l'utilisateur au fur et à mesure.
 
