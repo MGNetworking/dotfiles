@@ -1,0 +1,36 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE — VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IDE — IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Logs & temporaires
+*.log
+*.tmp
+*.temp
+
+# Claude Code
+.claude/settings.*
+
+# Variables d'environnement
+.env
+.env.*
+!.env.example
