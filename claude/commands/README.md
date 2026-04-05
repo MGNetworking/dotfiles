@@ -4,6 +4,29 @@ Liste de toutes les commandes disponibles, regroupées par fonctionnalité.
 
 ---
 
+## Guide de vérification du travail
+
+Commandes à utiliser selon l'étape du workflow pour valider son travail.
+
+```
+code → [validate-changes] → commit → [review-pr / sonarqube] → merge → [ship] → deploy → [canary]
+```
+
+| Étape | Commande | Quand l'utiliser |
+|---|---|---|
+| Avant de commiter | `/validate-changes` | Toujours avant un commit important |
+| Avant de commiter | `/security` | Quand on touche à de l'auth, des inputs ou des API |
+| Avant de commiter | `/security-check` | Après modification de configuration |
+| Avant de merger | `/review-pr` | Avant chaque merge |
+| Avant de merger | `/sonarqube` | Sur les projets connectés à SonarCloud |
+| Avant de merger | `/ship` | Avant de mettre en production |
+| Audit global | `/audit-codebase` | Bilan périodique ou avant une refonte |
+| Audit global | `/security-audit` | Audit sécurité approfondi |
+| Audit global | `/qa` | Validation fonctionnelle d'une feature |
+| Après déploiement | `/canary` | Juste après chaque mise en production |
+
+---
+
 ## Initialisation Git
 
 Commandes pour initialiser un projet git de A à Z.
@@ -70,6 +93,7 @@ Commandes pour auditer, tester et améliorer la qualité du code.
 
 | Commande | Description |
 |---|---|
+| `/arch-check` | Vérification de l'architecture — SOLID (score X/20), règles de couche et conventions |
 | `/audit-codebase` | Audit de santé du code — score sur 7 catégories avec plan de progression |
 | `/audit-agents-skills` | Auditer la qualité des agents, skills et commandes Claude Code |
 | `/audit-prompts` | Auditer les fichiers prompt-générateur — complétude et cohérence |

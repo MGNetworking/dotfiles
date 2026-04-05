@@ -31,6 +31,8 @@ dotfiles/
 Commandes invocables via `/nom-de-la-commande` dans Claude Code.
 Voir [claude/commands/README.md](claude/commands/README.md) pour la liste complète.
 
+> **Vérifier son travail ?** Consulter le [guide de vérification](claude/commands/README.md#guide-de-vérification-du-travail) dans le README des commandes.
+
 Catégories disponibles :
 - **Initialisation Git** — créer un projet de A à Z (`/git-setup`, `/git-setup-github`...)
 - **Workflow de livraison** — du commit à la production (`/commit`, `/pr`, `/ship`...)
