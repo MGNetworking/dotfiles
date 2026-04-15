@@ -70,4 +70,8 @@ separates concerns for future discount feature.
 Après analyse des modifications stagées, suggérer un message de commit.
 Demander confirmation avant d'exécuter `git commit -m "..."`.
 
+> Cette commande est invoquée manuellement par l'utilisateur.
+> Ne pas ajouter de ligne `Co-Authored-By` dans le message de commit.
+> L'utilisateur est le seul auteur du commit.
+
 $ARGUMENTS
