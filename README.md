@@ -1,6 +1,23 @@
-# dotfiles
+# dotfiles — Claude Code Toolkit
 
-Dotfiles personnels regroupant des commandes et skills Claude Code.
+Boîte à outils personnelle pour **Claude Code** : commandes et skills qui automatisent les tâches répétitives du cycle de développement — de l'init git au déploiement en production.
+
+> **Pourquoi ce projet ?**
+> Claude Code permet d'écrire des commandes personnalisées en Markdown. J'ai construit ce toolkit pour ne plus jamais retaper les mêmes instructions, garder une cohérence entre mes projets, et me concentrer sur ce qui compte vraiment : le code.
+
+---
+
+## Ce que ça démontre
+
+| Compétence | Comment |
+|---|---|
+| **Prompt engineering** | 48 commandes Markdown avec instructions précises, gestion du contexte et chaînage de tâches |
+| **Culture qualité** | Workflow complet : audit de code, tests, revue de PR, vérification pré-prod |
+| **Sécurité applicative** | Base de données de menaces (CVEs, OWASP Top 10, MCP threats), commandes d'audit et de surveillance |
+| **Automatisation** | Script d'installation idempotent avec détection de conflits et sauvegarde automatique |
+| **Documentation** | README structuré, guide de vérification du travail, catégorisation des outils |
+
+---
 
 ## Structure
 
@@ -9,40 +26,60 @@ dotfiles/
 ├── CLAUDE.md                  # Instructions du projet pour Claude Code
 ├── install.sh                 # Script d'installation des liens symboliques
 └── claude/
-    ├── commands/              # Commandes Claude Code (slash commands)
-    │   ├── README.md          # Liste et description de toutes les commandes
+    ├── commands/              # 48 commandes (slash commands)
+    │   ├── README.md          # Liste et guide d'utilisation
     │   ├── git-setup*.md      # Initialisation complète d'un projet git
     │   ├── git-worktree*.md   # Gestion des worktrees git isolés
     │   ├── plan-*.md          # Planification et architecture
     │   ├── security*.md       # Audits et vérifications de sécurité
     │   ├── learn/             # Commandes d'apprentissage interactif
-    │   └── resources/         # Ressources partagées (bases de données, etc.)
-    └── skills/                # Skills Claude Code (capacités réutilisables)
-        ├── tdd-workflow.md
-        ├── security-checklist.md
-        ├── pdf-generator.md
-        └── ast-grep-patterns.md
+    │   └── resources/         # Base de données de menaces (threat-db.yaml)
+    └── skills/                # 4 skills réutilisables
 ```
 
-## Contenu
+---
 
-### `claude/commands/`
+## Commandes disponibles
 
-Commandes invocables via `/nom-de-la-commande` dans Claude Code.
-Voir [claude/commands/README.md](claude/commands/README.md) pour la liste complète.
+Les commandes couvrent l'ensemble du cycle de développement. Voir [claude/commands/README.md](claude/commands/README.md) pour la liste complète et le guide de vérification.
 
-> **Vérifier son travail ?** Consulter le [guide de vérification](claude/commands/README.md#guide-de-vérification-du-travail) dans le README des commandes.
+```
+init → plan → code → commit → PR → ship → monitor
+```
 
-Catégories disponibles :
-- **Initialisation Git** — créer un projet de A à Z (`/git-setup`, `/git-setup-github`...)
-- **Workflow de livraison** — du commit à la production (`/commit`, `/pr`, `/ship`...)
-- **Planification** — architecture et revue avant de coder (`/plan-start`, `/plan-validate`...)
-- **Qualité** — audits, tests et refactoring (`/audit-codebase`, `/qa`, `/refactor`...)
-- **Sécurité** — OWASP, audits et surveillance (`/security`, `/security-audit`...)
-- **Développement** — debug, explication, génération de tests
-- **Apprentissage** — quiz, alternatives, explications progressives
+| Catégorie | Commandes clés |
+|---|---|
+| **Initialisation Git** | `/git-setup`, `/git-setup-github`, `/git-setup-actions` |
+| **Planification** | `/plan-start`, `/plan-eng-review`, `/plan-execute` |
+| **Qualité** | `/audit-codebase`, `/qa`, `/refactor`, `/arch-check` |
+| **Sécurité** | `/security-audit`, `/security-check`, `/update-threat-db` |
+| **Workflow** | `/commit`, `/pr`, `/validate-changes`, `/ship`, `/canary` |
+| **Développement** | `/investigate`, `/explain`, `/generate-tests` |
+| **Apprentissage** | `/learn:teach`, `/learn:alternatives`, `/learn:quiz` |
 
-### `claude/skills/`
+---
+
+## Base de données de menaces (`threat-db.yaml`)
+
+`claude/commands/resources/threat-db.yaml` est une base de renseignements sur les menaces de sécurité spécifique à l'écosystème **agents IA / Claude Code** — un domaine très récent (2025-2026).
+
+Elle est utilisée par deux commandes :
+
+- **`/security-check`** — compare ta configuration Claude Code contre la base pour détecter :
+  - skills et auteurs malveillants connus (campagnes ClawHavoc, MCPoison...)
+  - serveurs MCP avec CVEs actifs
+  - patterns suspects dans les hooks (reverse shells, exfiltration de données)
+  - secrets exposés dans les fichiers de configuration
+
+- **`/update-threat-db`** — met à jour la base via recherche web (Perplexity / WebSearch) avec les dernières menaces, nouveaux CVEs MCP et campagnes malveillantes
+
+> Concrètement : c'est l'équivalent d'une base antivirus locale, ciblée sur les vecteurs d'attaque propres aux agents de codage IA.
+
+La base référence uniquement des données publiques (CVEs, publications de recherche en sécurité de Snyk, Checkpoint, JFrog, Recorded Future...).
+
+---
+
+## Skills
 
 Skills utilisés en interne par les commandes ou invocables directement.
 
@@ -53,6 +90,8 @@ Skills utilisés en interne par les commandes ou invocables directement.
 | `pdf-generator` | Génération de fichiers PDF |
 | `ast-grep-patterns` | Patterns de recherche AST avec ast-grep |
 
+---
+
 ## Installation
 
 ```bash
@@ -61,4 +100,6 @@ cd ~/dotfiles
 ./install.sh
 ```
 
-Voir [install.sh](install.sh) pour le détail des liens symboliques créés.
+Le script crée des liens symboliques de `claude/commands/` et `claude/skills/` vers `~/.claude/`, avec détection de conflits et sauvegarde automatique des fichiers existants.
+
+**Prérequis :** [Claude Code](https://claude.ai/code) installé.
