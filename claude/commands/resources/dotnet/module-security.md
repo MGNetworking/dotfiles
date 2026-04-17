@@ -1,6 +1,6 @@
-# Fiches de révision — Phases 14 à 16
-# Niveau : Senior junior
+# Module — Sécurité & Documentation API
 
+> Niveau : **Senior junior**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 14 — Authentification et Autorisation (JWT)
+## Authentification et Autorisation (JWT)
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -134,7 +134,7 @@ JWT est **stateless** — toutes les informations nécessaires sont dans le toke
 
 </details>
 
-### Mon suivi — Phase 14
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -142,7 +142,7 @@ JWT est **stateless** — toutes les informations nécessaires sont dans le toke
 
 ---
 
-## PHASE 15 — Versioning d'API
+## Versioning d'API
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -246,7 +246,7 @@ public class RessourcesController : ControllerBase { ... }
 
 </details>
 
-### Mon suivi — Phase 15
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -254,7 +254,7 @@ public class RessourcesController : ControllerBase { ... }
 
 ---
 
-## PHASE 16 — Documentation avec Swagger / OpenAPI
+## Documentation avec Swagger / OpenAPI
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -392,7 +392,7 @@ Un bouton "Authorize" apparaît dans Swagger UI pour saisir le token.
 
 </details>
 
-### Mon suivi — Phase 16
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -404,9 +404,9 @@ Un bouton "Authorize" apparaît dans Swagger UI pour saisir le token.
 
 | Phase | Questions | Score |
 |---|---|---|
-| Phase 14 — JWT | Q76 à Q80 | /5 |
-| Phase 15 — Versioning | Q81 à Q84 | /4 |
-| Phase 16 — Swagger | Q85 à Q88 | /4 |
+| JWT | Q76 à Q80 | /5 |
+| Versioning | Q81 à Q84 | /4 |
+| Swagger | Q85 à Q88 | /4 |
 | **Total** | | **/13** |
 
 > **11/13 et plus** → Niveau maîtrisé

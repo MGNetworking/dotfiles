@@ -1,74 +1,92 @@
 ---
 name: fiches-dotnet
-description: "Fiches de révision .NET — liste les concepts disponibles ou ouvre une fiche"
+description: "Fiches de révision .NET — liste les modules disponibles ou ouvre un module"
 ---
 
-# Fiches de révision .NET
+# Modules de révision .NET
 
 ## Utilisation
 
 ```
-/fiches-dotnet          # Affiche le menu des fiches avec leurs concepts
-/fiches-dotnet 1-6      # Ouvre la fiche phases 1–6 (Junior+)
-/fiches-dotnet 7-10     # Ouvre la fiche phases 7–10 (Intermédiaire)
-/fiches-dotnet 11-13    # Ouvre la fiche phases 11–13 (Intermédiaire confirmé)
-/fiches-dotnet 14-16    # Ouvre la fiche phases 14–16 (Senior junior)
-/fiches-dotnet 17       # Ouvre la fiche phase 17 (Senior / Avancé)
-/fiches-dotnet 18-21    # Ouvre la fiche phases 18–21 (Senior+)
-/fiches-dotnet niveau   # Ouvre le tableau de progression marché
+/fiches-dotnet               → Affiche le menu de tous les modules
+/fiches-dotnet api           → REST API, DTOs, DI, async/await, tests unitaires
+/fiches-dotnet architecture  → SOLID, DDD (Aggregate Root, Value Object)
+/fiches-dotnet efcore        → EF Core avancé : providers, IQueryable, N+1, migrations
+/fiches-dotnet efcore-setup  → EF Core setup : packages, DbContext, migrations, AppDbContextFactory
+/fiches-dotnet patterns      → FluentValidation, AutoMapper, Logging, Options Pattern
+/fiches-dotnet security      → JWT, versioning d'API, OpenAPI/Swagger
+/fiches-dotnet testing       → Tests unitaires (xUnit, Moq, controllers)
+/fiches-dotnet advanced      → Clean Architecture, CQRS, MediatR
+/fiches-dotnet performance     → HttpClient, Background Services, Caching, Minimal APIs
+/fiches-dotnet multitenancy   → Multi-tenancy : row-level, HasQueryFilter, ITenantResolver
+/fiches-dotnet niveau         → Tableau de progression marché
 ```
 
 ## Instructions
 
 ### Si aucun argument n'est fourni
 
-Lis les 5 fiches de révision et le fichier niveau, puis affiche un menu structuré comme ceci :
+Affiche le menu suivant puis attends la réponse de l'utilisateur :
 
 ```
-Quelle fiche veux-tu ouvrir ?
+Quel module veux-tu ouvrir ?
 
-[1-6]   Junior+
-        REST API · Architecture en couches · Interfaces & DI
-        DTOs & PATCH · Gestion des erreurs · Tests unitaires (xUnit + Moq)
-        async/await · CancellationToken · Task<T>
+[api]           Junior
+                REST API · Architecture en couches · DI · DTOs & PATCH
+                Gestion des erreurs · Tests unitaires (xUnit + Moq) · async/await
 
-[7-10]  Intermédiaire
-        SOLID (5 principes) · DDD (Aggregate Root, Value Object, record)
-        Entity Framework Core · LINQ complet · Pagination · IDisposable
-        Tests d'intégration
+[architecture]  Mid
+                SOLID (5 principes) · DDD (Aggregate Root, Value Object)
+                Tests d'intégration · LINQ · Pagination
 
-[11-13] Intermédiaire confirmé
-        FluentValidation · Mapping DTO (AutoMapper, ProjectTo)
-        Logging (ILogger, Serilog) · Configuration & Options Pattern
+[efcore]        Mid
+                Providers · IQueryable vs IEnumerable · Exécution différée
+                Compatibilité LINQ/SQL · Anti-pattern N+1 · Changement de BD
 
-[14-16] Senior junior
-        Authentification JWT · Versioning d'API
-        Documentation Swagger / OpenAPI
+[efcore-setup]  Mid
+                Packages NuGet · AppDbContext · ValueConverter
+                AppDbContextFactory · migrations add vs Migrate() · __EFMigrationsHistory
 
-[17]    Senior / Avancé
-        Clean Architecture · CQRS · MediatR
+[patterns]      Mid confirmé
+                FluentValidation · AutoMapper · Logging (Serilog) · Options Pattern
 
-[18-21] Senior+
-        HttpClient & IHttpClientFactory · Background Services
-        Caching (IMemoryCache, Redis) · Minimal APIs · Multi-tenancy
+[security]      Senior junior
+                Authentification JWT · Versioning d'API · OpenAPI/Swagger
 
-[niveau] Tableau de progression marché
+[testing]       Junior → Mid
+                Tests unitaires (xUnit, Moq) · Arrange/Act/Assert
+                Tests controllers · ActionResult<T> · Verify
 
-→ Tape le numéro de groupe (ex: 7-10) pour ouvrir la fiche.
+[advanced]      Senior
+                Clean Architecture · CQRS · MediatR
+
+[performance]      Senior+
+                   HttpClient & IHttpClientFactory · Background Services
+                   Caching (IMemoryCache, Redis) · Minimal APIs
+
+[multitenancy]     Senior+
+                   Stratégies d'isolation · HasQueryFilter · ITenantResolver
+                   Risques de fuite · Cache multi-tenant
+
+[niveau]           Tableau de progression marché
+
+→ Tape le nom du module pour l'ouvrir.
 ```
-
-Puis attends la réponse de l'utilisateur et charge la fiche correspondante.
 
 ### Si un argument est fourni
 
-- `1-6` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases1-6.md`
-- `7-10` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases7-10.md`
-- `11-13` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases11-13.md`
-- `14-16` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases14-16.md`
-- `17` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phase17.md`
-- `18-21` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases18-21.md`
-- `niveau` → lis et affiche le contenu de `commands/resources/dotnet/niveau.md`
+- `api`          → lis et affiche `commands/resources/dotnet/module-api.md`
+- `architecture` → lis et affiche `commands/resources/dotnet/module-architecture.md`
+- `efcore`       → lis et affiche `commands/resources/dotnet/module-efcore.md`
+- `efcore-setup` → lis et affiche `commands/resources/dotnet/module-efcore-setup.md`
+- `patterns`     → lis et affiche `commands/resources/dotnet/module-patterns.md`
+- `security`     → lis et affiche `commands/resources/dotnet/module-security.md`
+- `testing`      → lis et affiche `commands/resources/dotnet/module-testing.md`
+- `advanced`     → lis et affiche `commands/resources/dotnet/module-advanced.md`
+- `performance`    → lis et affiche `commands/resources/dotnet/module-performance.md`
+- `multitenancy`   → lis et affiche `commands/resources/dotnet/module-multitenancy.md`
+- `niveau`         → lis et affiche `commands/resources/dotnet/niveau.md`
 
-Si l'argument ne correspond à aucune valeur connue, affiche la liste des valeurs valides.
+Si l'argument ne correspond à aucune valeur connue, affiche la liste des modules valides.
 
 $ARGUMENTS

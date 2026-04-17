@@ -1,6 +1,6 @@
-# Fiches de révision — Phase 17
-# Niveau : Senior / Avancé
+# Module — Clean Architecture & CQRS
 
+> Niveau : **Senior / Avancé**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 17 — Clean Architecture, CQRS, MediatR
+## Clean Architecture, CQRS, MediatR
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -157,7 +157,7 @@ Correction : configurer EF Core dans `Infrastructure` via `IEntityTypeConfigurat
 
 </details>
 
-### Mon suivi — Phase 17
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -169,7 +169,7 @@ Correction : configurer EF Core dans `Infrastructure` via `IEntityTypeConfigurat
 
 | Phase | Questions | Score |
 |---|---|---|
-| Phase 17 — Clean Architecture / CQRS | Q89 à Q93 | /5 |
+| Clean Architecture / CQRS | Q89 à Q93 | /5 |
 | **Total** | | **/5** |
 
 > **4/5 et plus** → Niveau maîtrisé

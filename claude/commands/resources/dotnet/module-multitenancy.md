@@ -1,6 +1,6 @@
-# Fiches de révision — Phase 22
-# Niveau : Senior+
+# Module — Multi-tenancy
 
+> Niveau : **Senior+**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 22 — Multi-tenancy
+## Multi-tenancy
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -169,7 +169,7 @@ Règle générale : **toute clé de cache, tout log structuré et toute requête
 
 </details>
 
-### Mon suivi — Phase 22
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -177,11 +177,11 @@ Règle générale : **toute clé de cache, tout log structuré et toute requête
 
 ---
 
-## Score — Phase 22
+## Score — Multi-tenancy
 
-| Phase | Questions | Score |
+| Thème | Questions | Score |
 |---|---|---|
-| Phase 22 — Multi-tenancy | Q126 à Q129 | /4 |
+| Multi-tenancy | Q126 à Q129 | /4 |
 
 > **3/4 et plus** → Niveau maîtrisé
 > **Moins de 3/4** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler

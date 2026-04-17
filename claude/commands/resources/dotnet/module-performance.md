@@ -1,6 +1,6 @@
-# Fiches de révision — Phases 18 à 21
-# Niveau : Senior junior+ / Avancé
+# Module — Performance & Services avancés
 
+> Niveau : **Senior+**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 18 — HttpClient et appels vers des APIs externes
+## HttpClient et appels vers des APIs externes
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -172,7 +172,7 @@ var dto = JsonSerializer.Deserialize<ExterneDto>(content);
 
 </details>
 
-### Mon suivi — Phase 18
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -180,7 +180,7 @@ var dto = JsonSerializer.Deserialize<ExterneDto>(content);
 
 ---
 
-## PHASE 19 — Background Services
+## Background Services
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -331,7 +331,7 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 
 </details>
 
-### Mon suivi — Phase 19
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -339,7 +339,7 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 
 ---
 
-## PHASE 20 — Caching
+## Caching
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -450,7 +450,7 @@ Règle : invalidation active pour les données qui changent fréquemment et dont
 
 </details>
 
-### Mon suivi — Phase 20
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -458,7 +458,7 @@ Règle : invalidation active pour les données qui changent fréquemment et dont
 
 ---
 
-## PHASE 21 — Minimal APIs
+## Minimal APIs
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -582,7 +582,7 @@ app.MapPost("/ressources", CreateEndpoint)
 
 </details>
 
-### Mon suivi — Phase 21
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -594,10 +594,10 @@ app.MapPost("/ressources", CreateEndpoint)
 
 | Phase | Questions | Score |
 |---|---|---|
-| Phase 18 — HttpClient | Q111 à Q115 | /5 |
-| Phase 19 — Background Services | Q116 à Q119 | /4 |
-| Phase 20 — Caching | Q120 à Q122 | /3 |
-| Phase 21 — Minimal APIs | Q123 à Q125 | /3 |
+| HttpClient | Q111 à Q115 | /5 |
+| Background Services | Q116 à Q119 | /4 |
+| Caching | Q120 à Q122 | /3 |
+| Minimal APIs | Q123 à Q125 | /3 |
 | **Total** | | **/15** |
 
 > **12/15 et plus** → Niveau maîtrisé

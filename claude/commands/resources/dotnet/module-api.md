@@ -1,6 +1,6 @@
-# Fiches de révision — Phases 1 à 6
-# Niveau : Junior+
+# Module — REST API & Architecture en couches
 
+> Niveau : **Junior+**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 1 — Bases ASP.NET Core Web API
+## Bases ASP.NET Core Web API
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -137,7 +137,7 @@ Règle : valeur qui fait partie de l'**identité** → route. **Filtre / tri / p
 
 </details>
 
-### Mon suivi — Phase 1
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -145,7 +145,7 @@ Règle : valeur qui fait partie de l'**identité** → route. **Filtre / tri / p
 
 ---
 
-## PHASE 2 — Architecture en couches
+## Architecture en couches
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -232,7 +232,7 @@ Exemple en architecture en couches : le service a une seule raison de changer (l
 
 </details>
 
-### Mon suivi — Phase 2
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -240,7 +240,7 @@ Exemple en architecture en couches : le service a une seule raison de changer (l
 
 ---
 
-## PHASE 3 — Interfaces et Injection de Dépendances
+## Interfaces et Injection de Dépendances
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -362,7 +362,7 @@ Le service ne change pas — il dépend de `IRepository`, pas de l'implémentati
 
 </details>
 
-### Mon suivi — Phase 3
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -370,7 +370,7 @@ Le service ne change pas — il dépend de `IRepository`, pas de l'implémentati
 
 ---
 
-## PHASE 4 — DTOs et PATCH
+## DTOs et PATCH
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -462,7 +462,7 @@ Résumé : `HasValue` est pour les types valeur rendus nullables. Pour les types
 
 </details>
 
-### Mon suivi — Phase 4
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -470,7 +470,7 @@ Résumé : `HasValue` est pour les types valeur rendus nullables. Pour les types
 
 ---
 
-## PHASE 5 — Gestion des erreurs
+## Gestion des erreurs
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -586,7 +586,7 @@ Problèmes : format non JSON, incohérent avec le reste de l'API, risque d'expos
 
 </details>
 
-### Mon suivi — Phase 5
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -594,7 +594,7 @@ Problèmes : format non JSON, incohérent avec le reste de l'API, risque d'expos
 
 ---
 
-## PHASE 6 — Tests unitaires (xUnit + Moq)
+## Tests unitaires (xUnit + Moq)
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -799,7 +799,7 @@ Les tests xUnit + Moq sont des tests unitaires — les dépendances sont mockée
 
 </details>
 
-### Mon suivi — Phase 6
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -807,7 +807,7 @@ Les tests xUnit + Moq sont des tests unitaires — les dépendances sont mockée
 
 ---
 
-## PHASE 6.5 — Programmation asynchrone (async/await)
+## Programmation asynchrone (async/await)
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -983,7 +983,7 @@ Chaîne correcte en ASP.NET Core :
 
 </details>
 
-### Mon suivi — Phase 6.5
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -995,13 +995,13 @@ Chaîne correcte en ASP.NET Core :
 
 | Phase | Questions | Score |
 |---|---|---|
-| Phase 1 — Bases | Q1 à Q7 | /7 |
-| Phase 2 — Architecture | Q8 à Q12 | /5 |
-| Phase 3 — DI & Interfaces | Q13 à Q18 | /6 |
-| Phase 4 — DTOs/PATCH | Q19 à Q23 | /5 |
-| Phase 5 — Erreurs | Q24 à Q29 | /6 |
-| Phase 6 — Tests unitaires | Q30 à Q39 | /10 |
-| Phase 6.5 — async/await | Q94 à Q99 | /6 |
+| Bases | Q1 à Q7 | /7 |
+| Architecture | Q8 à Q12 | /5 |
+| DI & Interfaces | Q13 à Q18 | /6 |
+| DTOs/PATCH | Q19 à Q23 | /5 |
+| Erreurs | Q24 à Q29 | /6 |
+| Tests unitaires | Q30 à Q39 | /10 |
+| async/await | Q94 à Q99 | /6 |
 | **Total** | | **/45** |
 
 > **37/45 et plus** → Niveau maîtrisé

@@ -1,6 +1,6 @@
-# Fiches de révision — Phases 7 à 10
-# Niveau : Intermédiaire
+# Module — SOLID & Domain-Driven Design
 
+> Niveau : **Intermédiaire**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 7 — Principes SOLID
+## Principes SOLID
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -119,7 +119,7 @@ DIP : le haut niveau ne doit pas instancier ni importer directement le bas nivea
 
 </details>
 
-### Mon suivi — Phase 7
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -127,7 +127,7 @@ DIP : le haut niveau ne doit pas instancier ni importer directement le bas nivea
 
 ---
 
-## PHASE 8 — Domain-Driven Design (DDD)
+## Domain-Driven Design (DDD)
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -267,7 +267,7 @@ public record CreateEntityCommand(string Title) : IRequest<EntityDto>;
 
 </details>
 
-### Mon suivi — Phase 8
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -275,7 +275,7 @@ public record CreateEntityCommand(string Title) : IRequest<EntityDto>;
 
 ---
 
-## PHASE 9 — Entity Framework Core
+## Entity Framework Core
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -573,7 +573,7 @@ En pratique avec EF Core et DI : le conteneur gère `Dispose()` automatiquement 
 
 </details>
 
-### Mon suivi — Phase 9
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -581,7 +581,7 @@ En pratique avec EF Core et DI : le conteneur gère `Dispose()` automatiquement 
 
 ---
 
-## PHASE 10 — Tests d'intégration
+## Tests d'intégration
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -700,7 +700,7 @@ Les deux sont complémentaires : unitaire pour la logique fine, intégration pou
 
 </details>
 
-### Mon suivi — Phase 10
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -712,10 +712,10 @@ Les deux sont complémentaires : unitaire pour la logique fine, intégration pou
 
 | Phase | Questions | Score |
 |---|---|---|
-| Phase 7 — SOLID | Q40 à Q45 | /6 |
-| Phase 8 — DDD + record | Q46 à Q50, Q100 | /6 |
-| Phase 9 — EF Core + LINQ | Q51 à Q56, Q101 à Q105 | /11 |
-| Phase 10 — Tests intégration | Q57 à Q60 | /4 |
+| SOLID | Q40 à Q45 | /6 |
+| DDD + record | Q46 à Q50, Q100 | /6 |
+| EF Core + LINQ | Q51 à Q56, Q101 à Q105 | /11 |
+| Tests intégration | Q57 à Q60 | /4 |
 | **Total** | | **/27** |
 
 > **22/27 et plus** → Niveau maîtrisé

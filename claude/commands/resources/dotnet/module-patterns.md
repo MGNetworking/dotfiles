@@ -1,6 +1,6 @@
-# Fiches de révision — Phases 11 à 13
-# Niveau : Intermédiaire confirmé
+# Module — Patterns applicatifs
 
+> Niveau : **Intermédiaire confirmé**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
 > Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## PHASE 11 — Validation avec FluentValidation
+## Validation avec FluentValidation
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -130,7 +130,7 @@ Cas d'usage : validation croisée entre plusieurs champs, règles métier ne pou
 
 </details>
 
-### Mon suivi — Phase 11
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -138,7 +138,7 @@ Cas d'usage : validation croisée entre plusieurs champs, règles métier ne pou
 
 ---
 
-## PHASE 11.5 — Mapping DTO ↔ Entité
+## Mapping DTO ↔ Entité
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -268,7 +268,7 @@ Toujours préférer `ProjectTo<T>()` pour les requêtes de liste avec EF Core �
 
 </details>
 
-### Mon suivi — Phase 11.5
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -276,7 +276,7 @@ Toujours préférer `ProjectTo<T>()` pour les requêtes de liste avec EF Core �
 
 ---
 
-## PHASE 12 — Logging
+## Logging
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -409,7 +409,7 @@ Avantages du structuré :
 
 </details>
 
-### Mon suivi — Phase 12
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -417,7 +417,7 @@ Avantages du structuré :
 
 ---
 
-## PHASE 13 — Configuration et Options Pattern
+## Configuration et Options Pattern
 
 ### Vocabulaire clé
 | Terme | Tu sais l'expliquer ? |
@@ -560,7 +560,7 @@ Contexte adapté : **développement local uniquement**. En production, utiliser 
 
 </details>
 
-### Mon suivi — Phase 13
+### Mon suivi
 
 | Date | Score | À revoir |
 |------|-------|----------|
@@ -572,10 +572,10 @@ Contexte adapté : **développement local uniquement**. En production, utiliser 
 
 | Phase | Questions | Score |
 |---|---|---|
-| Phase 11 — FluentValidation | Q61 à Q65 | /5 |
-| Phase 11.5 — Mapping DTO | Q107 à Q110 | /4 |
-| Phase 12 — Logging | Q66 à Q70 | /5 |
-| Phase 13 — Configuration | Q71 à Q75 | /5 |
+| FluentValidation | Q61 à Q65 | /5 |
+| Mapping DTO | Q107 à Q110 | /4 |
+| Logging | Q66 à Q70 | /5 |
+| Configuration | Q71 à Q75 | /5 |
 | **Total** | | **/19** |
 
 > **15/19 et plus** → Niveau maîtrisé
