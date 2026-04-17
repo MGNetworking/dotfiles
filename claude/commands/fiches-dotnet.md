@@ -9,11 +9,12 @@ description: "Fiches de révision .NET — liste les concepts disponibles ou ouv
 
 ```
 /fiches-dotnet          # Affiche le menu des fiches avec leurs concepts
-/fiches-dotnet 1-6      # Ouvre la fiche phases 1–6
-/fiches-dotnet 7-10     # Ouvre la fiche phases 7–10
-/fiches-dotnet 11-13    # Ouvre la fiche phases 11–13
-/fiches-dotnet 14-16    # Ouvre la fiche phases 14–16
-/fiches-dotnet 17       # Ouvre la fiche phase 17
+/fiches-dotnet 1-6      # Ouvre la fiche phases 1–6 (Junior+)
+/fiches-dotnet 7-10     # Ouvre la fiche phases 7–10 (Intermédiaire)
+/fiches-dotnet 11-13    # Ouvre la fiche phases 11–13 (Intermédiaire confirmé)
+/fiches-dotnet 14-16    # Ouvre la fiche phases 14–16 (Senior junior)
+/fiches-dotnet 17       # Ouvre la fiche phase 17 (Senior / Avancé)
+/fiches-dotnet 18-21    # Ouvre la fiche phases 18–21 (Senior+)
 /fiches-dotnet niveau   # Ouvre le tableau de progression marché
 ```
 
@@ -29,14 +30,16 @@ Quelle fiche veux-tu ouvrir ?
 [1-6]   Junior+
         REST API · Architecture en couches · Interfaces & DI
         DTOs & PATCH · Gestion des erreurs · Tests unitaires (xUnit + Moq)
+        async/await · CancellationToken · Task<T>
 
 [7-10]  Intermédiaire
-        SOLID (5 principes) · DDD (Aggregate Root, Value Object)
-        Entity Framework Core · Tests d'intégration
+        SOLID (5 principes) · DDD (Aggregate Root, Value Object, record)
+        Entity Framework Core · LINQ complet · Pagination · IDisposable
+        Tests d'intégration
 
 [11-13] Intermédiaire confirmé
-        FluentValidation · Logging (ILogger, Serilog)
-        Configuration & Options Pattern
+        FluentValidation · Mapping DTO (AutoMapper, ProjectTo)
+        Logging (ILogger, Serilog) · Configuration & Options Pattern
 
 [14-16] Senior junior
         Authentification JWT · Versioning d'API
@@ -44,6 +47,10 @@ Quelle fiche veux-tu ouvrir ?
 
 [17]    Senior / Avancé
         Clean Architecture · CQRS · MediatR
+
+[18-21] Senior+
+        HttpClient & IHttpClientFactory · Background Services
+        Caching (IMemoryCache, Redis) · Minimal APIs · Multi-tenancy
 
 [niveau] Tableau de progression marché
 
@@ -59,6 +66,7 @@ Puis attends la réponse de l'utilisateur et charge la fiche correspondante.
 - `11-13` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases11-13.md`
 - `14-16` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases14-16.md`
 - `17` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phase17.md`
+- `18-21` → lis et affiche le contenu de `commands/resources/dotnet/fiches-phases18-21.md`
 - `niveau` → lis et affiche le contenu de `commands/resources/dotnet/niveau.md`
 
 Si l'argument ne correspond à aucune valeur connue, affiche la liste des valeurs valides.

@@ -138,6 +138,144 @@ Cas d'usage : validation croisée entre plusieurs champs, règles métier ne pou
 
 ---
 
+## PHASE 11.5 — Mapping DTO ↔ Entité
+
+### Vocabulaire clé
+| Terme | Tu sais l'expliquer ? |
+|---|---|
+| Mapping manuel | ⬜ |
+| AutoMapper | ⬜ |
+| `Profile` / `CreateMap` | ⬜ |
+| `ProjectTo<T>()` | ⬜ |
+| Projection LINQ (`Select`) | ⬜ |
+
+### Questions
+
+**Q107.** `[Facile]` Pourquoi ne pas retourner directement les entités de domaine depuis l'API ? Cite 3 raisons de mapper vers un DTO.
+
+<!-- EXEMPLE: Lis l'entité de domaine principale du projet courant — quels champs ne devraient pas être exposés ? quels champs ont un format différent dans le DTO ? -->
+
+<details>
+<summary>Réponse</summary>
+
+1. **Sécurité** : l'entité peut contenir des champs sensibles (hash de mot de passe, données internes) qu'on ne veut pas exposer
+2. **Stabilité du contrat** : le modèle de domaine peut évoluer sans impacter le contrat de l'API (et inversement)
+3. **Forme adaptée** : le DTO peut avoir un format différent (champs combinés, types adaptés, noms différents pour le client)
+
+</details>
+
+---
+
+**Q108.** `[Normal]` Comment écrit-on un mapping manuel entre une entité et son DTO ? Montre les deux sens (entité → DTO et DTO → entité).
+
+<!-- EXEMPLE: Montre le mapping entre l'entité principale du projet courant et son DTO de réponse -->
+
+<details>
+<summary>Réponse</summary>
+
+```csharp
+// Méthode d'extension : Entité → DTO
+public static class EntityMappings
+{
+    public static EntityDto ToDto(this Entity entity)
+        => new EntityDto(entity.Id, entity.Name, entity.CreatedAt);
+
+    // DTO de création → Entité (via la factory method de l'Aggregate Root)
+    public static Entity ToDomain(this CreateEntityDto dto)
+        => Entity.Create(dto.Name);
+}
+
+// Usage dans le service
+var entity = dto.ToDomain();
+_repository.Add(entity);
+return entity.ToDto();
+```
+
+Le mapping manuel est explicite, vérifiable à la compilation, et ne nécessite pas de dépendance externe.
+
+</details>
+
+---
+
+**Q109.** `[Normal]` Comment configure-t-on AutoMapper dans ASP.NET Core ? Montre un Profile avec deux règles.
+
+<!-- EXEMPLE: Montre comment configurer AutoMapper pour mapper l'entité principale du projet courant vers son DTO -->
+
+<details>
+<summary>Réponse</summary>
+
+```csharp
+// 1. Créer un Profile
+public class EntityProfile : Profile
+{
+    public EntityProfile()
+    {
+        // Entité → DTO (propriétés identiques : mapping automatique)
+        CreateMap<Entity, EntityDto>();
+
+        // DTO → Entité (avec transformation sur un champ)
+        CreateMap<CreateEntityDto, Entity>()
+            .ForMember(dest => dest.CreatedAt,
+                       opt => opt.MapFrom(_ => DateTime.UtcNow));
+    }
+}
+
+// 2. Enregistrer dans Program.cs
+builder.Services.AddAutoMapper(typeof(EntityProfile).Assembly);
+
+// 3. Utiliser dans le service
+public class MonService(IMapper mapper, IRepository repository)
+{
+    public async Task<EntityDto> GetByIdAsync(int id, CancellationToken ct)
+    {
+        var entity = await repository.GetByIdAsync(id, ct);
+        return mapper.Map<EntityDto>(entity);
+    }
+}
+```
+
+</details>
+
+---
+
+**Q110.** `[Difficile]` Quelle est la différence entre `mapper.Map<T>()` et `ProjectTo<T>()` avec EF Core ? Lequel est plus performant pour les lectures ?
+
+<!-- EXEMPLE: Compare les deux approches pour retourner une liste de DTOs depuis le repository courant -->
+
+<details>
+<summary>Réponse</summary>
+
+| | `mapper.Map<T>()` | `ProjectTo<T>()` |
+|---|---|---|
+| Moment du mapping | Après `ToListAsync()` (en mémoire) | Avant `ToListAsync()` (traduit en SQL) |
+| SQL généré | `SELECT *` (toutes les colonnes) | `SELECT Id, Name` (colonnes du DTO uniquement) |
+| Performance | Plus lent sur grandes tables | Optimal |
+
+```csharp
+// ❌ mapper.Map : charge tout en mémoire puis mappe
+var entities = await _context.Entities.ToListAsync(ct);
+return mapper.Map<List<EntityDto>>(entities);
+// SQL : SELECT * FROM Entities
+
+// ✅ ProjectTo : traduit le mapping en SQL ciblé
+var dtos = await _context.Entities
+    .ProjectTo<EntityDto>(mapper.ConfigurationProvider)
+    .ToListAsync(ct);
+// SQL : SELECT Id, Name FROM Entities
+```
+
+Toujours préférer `ProjectTo<T>()` pour les requêtes de liste avec EF Core — ou utiliser directement `Select()` si on n'utilise pas AutoMapper.
+
+</details>
+
+### Mon suivi — Phase 11.5
+
+| Date | Score | À revoir |
+|------|-------|----------|
+| | /4 | |
+
+---
+
 ## PHASE 12 — Logging
 
 ### Vocabulaire clé
@@ -435,9 +573,10 @@ Contexte adapté : **développement local uniquement**. En production, utiliser 
 | Phase | Questions | Score |
 |---|---|---|
 | Phase 11 — FluentValidation | Q61 à Q65 | /5 |
+| Phase 11.5 — Mapping DTO | Q107 à Q110 | /4 |
 | Phase 12 — Logging | Q66 à Q70 | /5 |
 | Phase 13 — Configuration | Q71 à Q75 | /5 |
-| **Total** | | **/15** |
+| **Total** | | **/19** |
 
-> **12/15 et plus** → Niveau maîtrisé
-> **Moins de 12/15** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler
+> **15/19 et plus** → Niveau maîtrisé
+> **Moins de 15/19** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler

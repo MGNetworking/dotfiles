@@ -233,6 +233,40 @@ Avant DDD : le service contient tout. Après DDD : le service délègue les règ
 
 </details>
 
+---
+
+**Q100.** `[Normal]` Qu'est-ce qu'un `record` en C# ? En quoi diffère-t-il d'une `class` ? Quel lien avec les Value Objects en DDD ?
+
+<!-- EXEMPLE: Compare le Value Object du projet courant implémenté en class — comment serait-il en record ? -->
+
+<details>
+<summary>Réponse</summary>
+
+Un `record` est un type conçu pour les données immuables. L'égalité est basée sur les **valeurs** et non sur la référence.
+
+```csharp
+// class : égalité par référence
+public class Money { public decimal Amount { get; set; } public string Currency { get; set; } }
+var a = new Money { Amount = 10, Currency = "EUR" };
+var b = new Money { Amount = 10, Currency = "EUR" };
+Console.WriteLine(a == b); // false
+
+// record : égalité par valeur, immuable par défaut
+public record Money(decimal Amount, string Currency);
+var a = new Money(10, "EUR");
+var b = new Money(10, "EUR");
+Console.WriteLine(a == b); // true
+```
+
+**Lien DDD** : un `record` est le candidat naturel pour les Value Objects — immuable par conception, égalité par valeur. En CQRS avec MediatR, les commandes et queries sont typiquement des `record` car elles transportent des données sans comportement.
+
+```csharp
+// CQRS : commande en record
+public record CreateEntityCommand(string Title) : IRequest<EntityDto>;
+```
+
+</details>
+
 ### Mon suivi — Phase 8
 
 | Date | Score | À revoir |
@@ -378,11 +412,172 @@ var entity = _context.Entities
 
 </details>
 
+---
+
+**Q101.** `[Difficile]` Quelle est la différence entre `IEnumerable<T>` et `IQueryable<T>` ? Pourquoi est-ce critique avec EF Core ?
+
+<!-- EXEMPLE: Montre comment une méthode GetAll retournant IEnumerable vs IQueryable impacte le SQL généré par EF Core -->
+
+<details>
+<summary>Réponse</summary>
+
+| | `IEnumerable<T>` | `IQueryable<T>` |
+|---|---|---|
+| Exécution | En mémoire (côté C#) | Traduit en SQL (côté BDD) |
+| Filtrage | Charge tout puis filtre | Filtre dans la requête SQL |
+| Usage | Collections en mémoire | LINQ avec EF Core |
+
+```csharp
+// ❌ IEnumerable : charge TOUTE la table en mémoire, puis filtre en C#
+IEnumerable<Entity> entities = _context.Entities;
+var result = entities.Where(e => e.Name == "foo").ToList();
+// SQL : SELECT * FROM Entities (scan complet !)
+
+// ✅ IQueryable : le filtre est traduit en SQL
+IQueryable<Entity> query = _context.Entities;
+var result = query.Where(e => e.Name == "foo").ToList();
+// SQL : SELECT * FROM Entities WHERE Name = 'foo'
+```
+
+Exposer `IEnumerable` depuis un repository EF Core peut provoquer des performances catastrophiques sur des tables volumineuses.
+
+</details>
+
+---
+
+**Q102.** `[Normal]` Écris une requête LINQ avec `Select` (projection), `Where` (filtre) et `OrderBy` (tri). Pourquoi `Select` est-il important pour les performances ?
+
+<!-- EXEMPLE: Réécris la méthode GetAll du repository courant pour projeter uniquement les champs nécessaires au DTO -->
+
+<details>
+<summary>Réponse</summary>
+
+```csharp
+var dtos = await _context.Entities
+    .Where(e => e.IsActive)                        // filtre SQL : WHERE IsActive = 1
+    .OrderBy(e => e.Name)                          // tri SQL : ORDER BY Name
+    .Select(e => new EntityDto(e.Id, e.Name))      // projection : SELECT Id, Name seulement
+    .ToListAsync(cancellationToken);
+```
+
+`Select` génère un `SELECT Id, Name` ciblé au lieu de `SELECT *`. Sur une entité avec 20 colonnes, ne sélectionner que 2 colonnes réduit significativement les données transférées depuis la BDD.
+
+</details>
+
+---
+
+**Q103.** `[Normal]` Comment implémentes-tu la pagination avec LINQ ? Montre la structure d'un `PagedResult<T>`.
+
+<!-- EXEMPLE: Ajoute la pagination à l'endpoint GET de la collection du projet courant avec les paramètres page et pageSize -->
+
+<details>
+<summary>Réponse</summary>
+
+```csharp
+public record PagedResult<T>(
+    IReadOnlyList<T> Items,
+    int TotalCount,
+    int Page,
+    int PageSize)
+{
+    public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
+    public bool HasNextPage => Page < TotalPages;
+}
+
+// Repository
+public async Task<PagedResult<Entity>> GetPagedAsync(
+    int page, int pageSize, CancellationToken ct)
+{
+    var query = _context.Entities.AsQueryable();
+    var totalCount = await query.CountAsync(ct);
+    var items = await query
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync(ct);
+
+    return new PagedResult<Entity>(items, totalCount, page, pageSize);
+}
+```
+
+Les paramètres viennent de la query string : `GET /ressources?page=2&pageSize=20`. Toujours valider que `pageSize` a une valeur maximale (ex : 100) pour éviter les abus.
+
+</details>
+
+---
+
+**Q104.** `[Normal]` Quelle est la différence entre `Any()` et `Count() > 0` ? Lequel préférer et pourquoi ?
+
+<!-- EXEMPLE: Montre comment vérifier l'existence d'un doublon dans le repository courant avec Any vs Count -->
+
+<details>
+<summary>Réponse</summary>
+
+```csharp
+// ❌ Count() > 0 : compte TOUS les enregistrements avant de comparer
+bool exists = await _context.Entities.CountAsync() > 0;
+// SQL : SELECT COUNT(*) FROM Entities (scan complet)
+
+// ✅ Any() : s'arrête au premier enregistrement trouvé
+bool exists = await _context.Entities.AnyAsync();
+// SQL : SELECT CASE WHEN EXISTS (...) THEN 1 ELSE 0 END
+
+// Avec prédicat : vérifier l'existence d'un doublon
+bool titleExists = await _context.Entities
+    .AnyAsync(e => e.Name == name && e.Id != currentId, ct);
+```
+
+Toujours préférer `Any()` pour vérifier l'existence — EF Core génère un `EXISTS` SQL qui s'arrête au premier résultat.
+
+</details>
+
+---
+
+**Q105.** `[Normal]` Qu'est-ce que `IDisposable` ? Quand l'implémenter ? Quelle est la différence entre `using` statement et `using` declaration ?
+
+<!-- EXEMPLE: Montre comment gérer une ressource non managée (ex: StreamWriter pour un export) avec using -->
+
+<details>
+<summary>Réponse</summary>
+
+`IDisposable` permet de libérer des ressources non managées (connexions BDD, fichiers, sockets) via `Dispose()`.
+
+```csharp
+// using statement (C# ≤ 7) : bloc délimité
+using (var stream = new FileStream("export.csv", FileMode.Create))
+{
+    // Dispose() appelé automatiquement à la sortie du bloc
+}
+
+// using declaration (C# 8+) : libéré à la fin de la portée
+using var stream = new FileStream("export.csv", FileMode.Create);
+// Dispose() appelé à la fin de la méthode
+
+// Implémenter IDisposable
+public class MyResource : IDisposable
+{
+    private bool _disposed = false;
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            // Libérer les ressources non managées
+            _disposed = true;
+        }
+        GC.SuppressFinalize(this);
+    }
+}
+```
+
+En pratique avec EF Core et DI : le conteneur gère `Dispose()` automatiquement pour les services `Scoped`. Implémenter `IDisposable` manuellement uniquement si tu gères des ressources non managées directement.
+
+</details>
+
 ### Mon suivi — Phase 9
 
 | Date | Score | À revoir |
 |------|-------|----------|
-| | /6 | |
+| | /11 | |
 
 ---
 
@@ -518,10 +713,10 @@ Les deux sont complémentaires : unitaire pour la logique fine, intégration pou
 | Phase | Questions | Score |
 |---|---|---|
 | Phase 7 — SOLID | Q40 à Q45 | /6 |
-| Phase 8 — DDD | Q46 à Q50 | /5 |
-| Phase 9 — EF Core | Q51 à Q56 | /6 |
+| Phase 8 — DDD + record | Q46 à Q50, Q100 | /6 |
+| Phase 9 — EF Core + LINQ | Q51 à Q56, Q101 à Q105 | /11 |
 | Phase 10 — Tests intégration | Q57 à Q60 | /4 |
-| **Total** | | **/21** |
+| **Total** | | **/27** |
 
-> **17/21 et plus** → Niveau maîtrisé
-> **Moins de 17/21** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler
+> **22/27 et plus** → Niveau maîtrisé
+> **Moins de 22/27** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler

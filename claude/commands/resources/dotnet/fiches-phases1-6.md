@@ -807,6 +807,190 @@ Les tests xUnit + Moq sont des tests unitaires — les dépendances sont mockée
 
 ---
 
+## PHASE 6.5 — Programmation asynchrone (async/await)
+
+### Vocabulaire clé
+| Terme | Tu sais l'expliquer ? |
+|---|---|
+| `async` / `await` | ⬜ |
+| `Task<T>` | ⬜ |
+| `Task.WhenAll` | ⬜ |
+| `CancellationToken` | ⬜ |
+| Deadlock async | ⬜ |
+| `ConfigureAwait(false)` | ⬜ |
+
+### Questions
+
+**Q94.** `[Facile]` Qu'est-ce que `async`/`await` ? Pourquoi l'utiliser dans ASP.NET Core plutôt que du code synchrone ?
+
+<!-- EXEMPLE: Compare l'endpoint GET du projet courant en version synchrone et asynchrone — qu'est-ce qui change ? -->
+
+<details>
+<summary>Réponse</summary>
+
+`async`/`await` permet d'écrire du code asynchrone de façon lisible, sans bloquer le thread pendant une opération I/O (BDD, HTTP, fichier).
+
+En ASP.NET Core, chaque requête HTTP occupe un thread du pool. Sans async, le thread est bloqué pendant toute la durée d'une requête BDD. Avec async, le thread est libéré et peut traiter d'autres requêtes → meilleure scalabilité sous charge.
+
+```csharp
+// ❌ Synchrone : bloque le thread pendant la requête BDD
+public Entity GetById(int id) => _context.Entities.Find(id);
+
+// ✅ Asynchrone : libère le thread pendant l'attente I/O
+public async Task<Entity?> GetByIdAsync(int id)
+    => await _context.Entities.FindAsync(id);
+```
+
+</details>
+
+---
+
+**Q95.** `[Normal]` Quelle est la différence entre `Task`, `Task<T>` et `void` dans une méthode async ? Quand utiliser chacun ?
+
+<!-- EXEMPLE: Identifie dans le projet courant les méthodes async et leur type de retour -->
+
+<details>
+<summary>Réponse</summary>
+
+| Type de retour | Usage | Exemple |
+|---|---|---|
+| `Task<T>` | Méthode async qui retourne une valeur | `async Task<Entity?> GetByIdAsync(int id)` |
+| `Task` | Méthode async sans valeur de retour | `async Task DeleteAsync(int id)` |
+| `void` | Uniquement pour les event handlers | `async void OnButtonClick(...)` |
+
+⚠️ Éviter `async void` : les exceptions sont non capturables et la méthode ne peut pas être `await`ée.
+
+</details>
+
+---
+
+**Q96.** `[Normal]` Qu'est-ce qu'un `CancellationToken` ? Comment l'utiliser dans un endpoint ASP.NET Core et le propager jusqu'à EF Core ?
+
+<!-- EXEMPLE: Ajoute un CancellationToken à l'endpoint GET du projet courant et propage-le jusqu'au repository -->
+
+<details>
+<summary>Réponse</summary>
+
+Un `CancellationToken` permet d'annuler une opération asynchrone (ex : client qui ferme la connexion, timeout dépassé).
+
+```csharp
+// Controller : ASP.NET Core injecte le token automatiquement
+[HttpGet]
+public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+{
+    var entities = await _service.GetAllAsync(cancellationToken);
+    return Ok(entities);
+}
+
+// Service
+public async Task<IEnumerable<Entity>> GetAllAsync(CancellationToken ct)
+    => await _repository.GetAllAsync(ct);
+
+// Repository EF Core
+public async Task<IEnumerable<Entity>> GetAllAsync(CancellationToken ct)
+    => await _context.Entities.ToListAsync(ct);
+```
+
+Si le client ferme la connexion, `cancellationToken` est annulé → EF Core annule la requête SQL → pas de ressources gaspillées.
+
+</details>
+
+---
+
+**Q97.** `[Difficile]` Qu'est-ce qu'un deadlock async ? Dans quel contexte se produit-il ? Comment l'éviter ?
+
+<!-- EXEMPLE: Montre un exemple de .Result sur une méthode async et explique pourquoi c'est dangereux -->
+
+<details>
+<summary>Réponse</summary>
+
+Un deadlock async se produit quand du code synchrone bloque en attendant une tâche async qui tente de reprendre sur le thread bloqué.
+
+```csharp
+// ❌ Deadlock potentiel : .Result bloque le thread appelant
+public IActionResult Get()
+{
+    var result = GetDataAsync().Result; // bloque le thread
+    return Ok(result);
+}
+```
+
+Comment l'éviter :
+1. **Toujours `await` jusqu'au bout de la chaîne** — ne jamais mixer `.Result` ou `.Wait()` avec async
+2. **`ConfigureAwait(false)`** dans les librairies pour ne pas capturer le contexte de synchronisation :
+
+```csharp
+// Dans une librairie (pas un controller ASP.NET Core)
+var data = await repository.GetAsync().ConfigureAwait(false);
+```
+
+En ASP.NET Core moderne (sans SynchronizationContext), le deadlock classique est moins fréquent — mais `.Result`/`.Wait()` restent à éviter car ils bloquent un thread du pool inutilement.
+
+</details>
+
+---
+
+**Q98.** `[Normal]` Quelle est la différence entre attendre des tâches séquentiellement et `Task.WhenAll` ? Quand utiliser l'un ou l'autre ?
+
+<!-- EXEMPLE: Compare deux appels indépendants (ex: deux repositories) en séquentiel vs parallèle -->
+
+<details>
+<summary>Réponse</summary>
+
+```csharp
+// Séquentiel : durée totale = T1 + T2
+var a = await GetAAsync();   // attend 300ms
+var b = await GetBAsync();   // puis attend 200ms → 500ms total
+
+// Parallèle avec Task.WhenAll : durée totale = max(T1, T2)
+var taskA = GetAAsync();
+var taskB = GetBAsync();
+await Task.WhenAll(taskA, taskB);              // 300ms total
+var (a, b) = (taskA.Result, taskB.Result);
+```
+
+Utiliser `Task.WhenAll` quand les tâches sont **indépendantes** (B ne dépend pas du résultat de A). Rester séquentiel si B dépend de A.
+
+</details>
+
+---
+
+**Q99.** `[Normal]` Que signifie "async jusqu'au bout" ? Donne un exemple de violation et son impact.
+
+<!-- EXEMPLE: Trace le chemin async de l'endpoint jusqu'au repository dans le projet courant — chaque méthode est-elle bien async ? -->
+
+<details>
+<summary>Réponse</summary>
+
+"Async jusqu'au bout" signifie que toute la chaîne d'appel est asynchrone. Casser la chaîne avec `.Result` ou `.Wait()` perd le bénéfice de l'async et risque un deadlock.
+
+```csharp
+// ❌ Chaîne cassée : le service bloque sur une opération async
+public IEnumerable<Entity> GetAll()
+{
+    return _repository.GetAllAsync().Result; // bloque inutilement
+}
+
+// ✅ Chaîne complète
+public async Task<IEnumerable<Entity>> GetAllAsync(CancellationToken ct)
+{
+    return await _repository.GetAllAsync(ct);
+}
+```
+
+Chaîne correcte en ASP.NET Core :
+`endpoint async Task<IActionResult>` → `service async Task<T>` → `repository async Task<T>` → EF Core async (`ToListAsync`, `FindAsync`…)
+
+</details>
+
+### Mon suivi — Phase 6.5
+
+| Date | Score | À revoir |
+|------|-------|----------|
+| | /6 | |
+
+---
+
 ## Score — Niveau Junior+
 
 | Phase | Questions | Score |
@@ -817,8 +1001,9 @@ Les tests xUnit + Moq sont des tests unitaires — les dépendances sont mockée
 | Phase 4 — DTOs/PATCH | Q19 à Q23 | /5 |
 | Phase 5 — Erreurs | Q24 à Q29 | /6 |
 | Phase 6 — Tests unitaires | Q30 à Q39 | /10 |
-| **Total** | | **/39** |
+| Phase 6.5 — async/await | Q94 à Q99 | /6 |
+| **Total** | | **/45** |
 
-> **32/39 et plus** → Niveau maîtrisé
-> **Moins de 32/39** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler
+> **37/45 et plus** → Niveau maîtrisé
+> **Moins de 37/45** → Consulte `dotnet/niveau.md` pour identifier les points à retravailler
 
