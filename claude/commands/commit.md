@@ -32,6 +32,7 @@ Générer un message de commit conventionnel pour les modifications stagées.
 - `perf` : Amélioration des performances
 - `test` : Ajout de tests manquants
 - `chore` : Tâches de maintenance
+- `wip` : Travail en cours (sauvegarde intermédiaire, non terminé)
 
 ### Règles
 - Sujet : mode impératif, sans point final, 50 caractères max
@@ -66,6 +67,11 @@ separates concerns for future discount feature.
 ```
 
 ## Exécution
+
+Avant d'analyser les modifications, poser cette question à l'utilisateur :
+**"C'est un WIP (travail en cours) ou c'est terminé ?"**
+- Si WIP → utiliser le type `wip` au lieu du type conventionnel
+- Si terminé → utiliser le type conventionnel approprié (`feat`, `fix`, `refactor`, etc.)
 
 Après analyse des modifications stagées, suggérer un message de commit.
 Demander confirmation avant d'exécuter `git commit -m "..."`.
