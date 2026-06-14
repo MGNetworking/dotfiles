@@ -27,6 +27,17 @@ code → [validate-changes] → commit → [review-pr / sonarqube] → merge →
 
 ---
 
+## Initialisation du contexte projet
+
+Commandes pour initialiser et maintenir le système de navigation documentaire.
+
+| Commande | Description |
+|---|---|
+| `/format-claude-md` | Restructurer `CLAUDE.md` en index pur — prérequis de `/bootstrap-context` |
+| `/bootstrap-context` | Générer les index documentaires et les commandes projet depuis la documentation |
+
+---
+
 ## Initialisation Git
 
 Commandes pour initialiser un projet git de A à Z.
