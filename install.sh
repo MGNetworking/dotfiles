@@ -115,6 +115,9 @@ if [ -z "$COMMANDS_BACKUP" ] && [ -z "$SKILLS_BACKUP" ]; then
   echo ""
 fi
 
+echo ""
+info "Harness universel : installer séparément depuis D:/Projet/harness/adapters/claude/"
+
 echo "=== Installation terminée ==="
 echo ""
 echo "Lance Claude Code pour utiliser les commandes."
